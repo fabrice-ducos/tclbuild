@@ -1,11 +1,11 @@
 # tclbuild
 
-A build project for building Tcl/Tk and Jaclin (TclJava fork) from sources
+A build project for building Tcl/Tk and [Jaclin](https://github.com/fabrice-ducos/jaclin) (TclJava fork) from sources
 
 tclbuild was developed to ease the construction of Jaclin from the available JDK and Tcl/Tk sources.
 
 It automatically downloads the versions of Tcl/Tk and other open-source popular tools (Expect, Critcl, TclX, ...) required by the user, 
-and builds them along with Jaclin. The goal is to provide a complete Tcl/Tk environment running natively and on a Java Virtual Machine.
+and builds them along with [Jaclin](https://github.com/fabrice-ducos/jaclin). The goal is to provide a complete Tcl/Tk environment running natively and on a Java Virtual Machine.
 
 This is a work in progress and still experimental.
 
