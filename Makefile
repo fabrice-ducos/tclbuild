@@ -89,7 +89,7 @@ help:
 tcl: $(tclsh)
 
 $(tclsh): $(TCL_SRCDIR)
-	cd $(TCL_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) && $(MAKE) && $(MAKE) install
+	cd $(TCL_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib $(THREADS_FLAGS) $(MORE_TCL_FLAGS) && $(MAKE) && $(MAKE) install
 
 tk: $(wish)
 
