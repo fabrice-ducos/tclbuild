@@ -94,7 +94,7 @@ $(tclsh): $(TCL_SRCDIR)
 tk: $(wish)
 
 $(wish): $(tclsh) $(TK_SRCDIR)
-	cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
+	cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
 
 threads: $(threads_lib)
 
