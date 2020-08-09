@@ -76,7 +76,7 @@ help:
 	@echo "make tcljava [CFLAGS+=-DTCLBLEND_DEBUG]: build tcljava [with tclblend debug mode]"
 	@echo "make jaclin [CFLAGS+=-DTCLBLEND_DEBUG]: build jaclin [with tclblend debug mode]"
 	@echo "make jtcl: build jtcl (a jacl fork implementing Tcl 8.4)"
-	@echo "make clean: remove the build directory."
+	@echo "make clean: remove the build and local subdirectories (in the current directory only)"
 	@echo "make download: download the packages given in build.cfg"
 	@echo "make erase: erase the downloaded packages"
 	@echo "make help: this help"
@@ -218,9 +218,12 @@ $(JACLIN_TARBALL):
 $(JTCL_TARBALL):
 	cd $(PACKAGES_DIR) && $(MAKE) jtcl
 
+# never try to remove $(BUILD_DIR) and $(PREFIX), for safety reasons;
+# however, if 'build' and 'local' exist in the current directory, remove them
 clean:
 	cd examples && $(MAKE) clean
-	-rm -rf $(BUILD_DIR)
+	-rm -rf build
+	-rm -rf local
 	-rm -f *~
 
 erase:
