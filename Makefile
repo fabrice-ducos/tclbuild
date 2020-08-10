@@ -52,7 +52,7 @@ THREADS_SRCDIR=$(TCL_SRCDIR)/pkgs/thread$(THREADS_VERSION)
 threads_pkgIndex=$(THREADS_SRCDIR)/pkgIndex.tcl
 
 .PHONY: all download help clean erase
-.PHONY: tcl tk threads expect critcl tclx tcllib bwidget tclblend jacl tcljava
+.PHONY: tcl tk threads expect critcl tclx tcllib bwidget tclblend jacl
 
 all: $(TARGETS)
 
@@ -73,7 +73,6 @@ help:
 	@echo "make bwidget: build bwidget"
 	@echo "make tclblend: build tclblend"
 	@echo "make jacl: build jacl (currently implementing Tcl 8.0)"
-	@echo "make tcljava [CFLAGS+=-DTCLBLEND_DEBUG]: build tcljava [with tclblend debug mode]"
 	@echo "make jaclin [CFLAGS+=-DTCLBLEND_DEBUG]: build jaclin [with tclblend debug mode]"
 	@echo "make jtcl: build jtcl (a jacl fork implementing Tcl 8.4)"
 	@echo "make clean: remove the build and local subdirectories (in the current directory only)"
@@ -139,8 +138,6 @@ jacl: $(jaclsh)
 
 $(jaclsh): $(JACLIN_SRCDIR)
 	cd $(JACLIN_SRCDIR) && ./configure --enable-jacl --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-thread=$(THREADS_SRCDIR) --with-jdk=$(JAVA_HOME) && $(MAKE) && $(MAKE) install
-
-tcljava: tclblend jacl
 
 jaclin: tclblend jacl
 

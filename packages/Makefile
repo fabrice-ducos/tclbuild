@@ -2,7 +2,7 @@ TAR=tar cvf
 include ../build.cfg
 
 .PHONY: all download help clean erase
-.PHONY: tcl tk expect critcl tclx tcllib bwidget tclblend jacl tcljava
+.PHONY: tcl tk expect critcl tclx tcllib bwidget tclblend jacl
 
 all: download
 
