@@ -107,8 +107,9 @@ ck: $(cwsh)
 
 tclreadline: $(tclreadline-folder)
 
+# explicit CFLAGS is necessary with tclreadline because tclreadline's configure doesn't recognize --with-x-includes
 $(tclreadline-folder):
-	$(MAKE) $(TCLREADLINE_SRCDIR) && cd $(TCLREADLINE_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-tk=$(TK_SRCDIR)/$(TCL_PLATFORM) $(X11_FLAGS) --enable-tclshrl --enable-wishrl $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
+	$(MAKE) $(TCLREADLINE_SRCDIR) && cd $(TCLREADLINE_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-tk=$(TK_SRCDIR)/$(TCL_PLATFORM) $(READLINE_FLAGS) $(X11_FLAGS) --enable-tclshrl --enable-wishrl $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) CFLAGS=-I$(X11_PREFIX)/include && $(MAKE) && $(MAKE) install
 
 
 $(cwsh): $(tclsh)
