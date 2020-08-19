@@ -3,12 +3,6 @@
 
 include build.cfg
 
-# TCL_PLATFORM can be: unix (also works for OSX), win, macosx
-# TCL_PLATFORM=macosx provides some additional, optional features for OSX:
-#   --enable-framework and --disable-corefoundation (see README in $(TCL_SRCDIR)/macosx), as well as facilities
-#   for development on XCode. For deployment purposes, one shall use TCL_PLATFORM=unix by default even on OSX.
-TCL_PLATFORM=unix
-
 PACKAGES_DIR=packages
 TCL_TARBALL=$(PACKAGES_DIR)/tcl$(TCL_VERSION)-src.tar.gz
 TK_TARBALL=$(PACKAGES_DIR)/tk$(TK_VERSION)-src.tar.gz

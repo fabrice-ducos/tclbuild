@@ -1,4 +1,4 @@
-# TacTCL 0.2.3
+# TacTCL 0.2.4
 (pronounce "tactical")
 
 A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
