@@ -1,4 +1,4 @@
-# tclbuild 0.1.11
+# tclbuild 0.1.12
 
 A build project for building Tcl/Tk and many popular Tcl/Tk packages from sources
 
@@ -25,6 +25,26 @@ Especially, you can find the binaries under `local/bin`.
 
 You can copy the directories wherever you need (e.g. under `/usr/local`).
 `tclbuild` doesn't currently perform an automatic installation in system directories to avoid overwriting a working installation.
+
+You can test jtclsh and jaclsh (the JVM Tcl interpreters from Tclblend and Jacl) with these commands:
+
+```
+$ ./local/bin/jtclsh 
+% puts $tcl_version
+8.6
+```
+
+```
+$ ./local/bin/jaclsh 
+% puts $tcl_version
+8.0
+```
+
+To get a more user's friendly tcl shell (currently recognized by tclsh and jtclsh but not by jaclsh):
+
+`cp tclshrc $HOME/.tclshrc # don't forget the dot in the target`
+
+This setup script is based on tclreadline (that is currently not integrated in tclbuild and that you may need to install). It will provide you with syntax highlighting and history facilities.
 
 ### If you need more control
 
