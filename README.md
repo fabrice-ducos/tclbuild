@@ -1,4 +1,4 @@
-# TacTCL 0.2.2
+# TacTCL 0.2.3
 (pronounce "tactical")
 
 A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
@@ -53,8 +53,8 @@ Edit the first line (lappend autopath) of `$HOME/.tclshrc` to the proper path of
 ### If you need more control
 
 Edit `build.cfg`:
-  - set the desired versions for the tools.
-  - edit the TARGETS variable with the list of the needed tools.
+  - set the desired versions for the tools
+  - comment or uncomment the TARGETS lines depending on the needed tools
   - edit the installation path: PREFIX
 
 Once everything is set up, launch `make help` to see the list of available build targets, and check the configuration.
