@@ -87,7 +87,7 @@ All dependencies are optional and can be disabled by editing `build.cfg`
   - JDK 9 and 12 (all JDK starting from 5 should be supported, but let the maintainers know otherwise)
 
 ## Known bugs
-  - MacOSX 10.15.3: wish8.6 currently fails to load because of a link error (non Tk interpreters work)
+  - MacOSX 10.15.3: wish8.6 currently fails to load because of a link error (non Tk interpreters work). See [wish8.6 bug](https://github.com/fabrice-ducos/tactcl/issues/1) for details.
 
 ## TODO
   - Test on various Linux and BSD distributions
