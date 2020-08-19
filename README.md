@@ -1,4 +1,4 @@
-# TacTCL 0.2.7
+# TacTCL 0.2.8
 (pronounce "tactical")
 
 A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
@@ -8,7 +8,9 @@ If you need a production-ready, stable version of Tcl, it's probably better to r
 
 TacTCL's goal is to automatically download stable sources of several popular packages and compile them on your system with your available compiler, instead of relying on precompiled binaries.
 
-It provides native and JVM builds for Tcl. For the JVM builds, it uses Jaclin, a TclJava fork from TacTCL's author, that supports recent versions of the JDK (JDK 10 and newer, with support for JDK 4- dropped).
+The policy of TacTCL is that the default configuration should provide working, stable versions of main packages, but that the user should be able to easily try any configuration of her liking by editing a simple `build.cfg` text file. Contributors are welcome to propose newer default configurations after testing them. 
+
+`tactcl` provides native and JVM builds for Tcl. For the JVM builds, it uses Jaclin, a TclJava fork from TacTCL's author, that supports recent versions of the JDK (JDK 10 and newer, with support for JDK 4- dropped).
 
 *The JVM builds with modern JDK and last versions of Tcl (8.6 with TclOO support) are a unique feature of TacTCL (currently not available in other Tcl distributions)*.
 
