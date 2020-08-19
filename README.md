@@ -1,4 +1,4 @@
-# TacTCL 0.2.0
+# TacTCL 0.2.1
 (pronounce "tactical")
 
 A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
@@ -77,7 +77,15 @@ Once everything is set up, launch `make help` to see the list of available build
   - bwidget:  bwidget 1.9.13 - a cross-platform widget toolkit for Blender (currently GPL2)
   - critcl:   critcl 3.1.17 - package for on-the-fly compilation of tcl scripts
   - tclx:     tclx 8.4.2 - popular extensions for Tcl
-  - jaclin:   jaclin 0.1.2 - fork of TclJava (Tcl on the JVM), with Tclblend updated for Tcl 8.6 (jtclsh 8.6 and jaclsh 8.0)
+  - jaclin:   jaclin 0.1.2 - TclJava fork (Tcl on the JVM), with Tclblend updated for Tcl 8.6 (jtclsh 8.6 and jaclsh 8.0)
+
+## Systems for which TacTCL has been successfully tested (a JDK 5+ is required for TclJava/Jaclin):
+  - Linux Mint 4.10.0-38 (should probably work on most Linux systems too)
+  - MacOSX 10.15.3 (expect for wish8.6, see the Known bugs section)
+  - JDK 9 and 12 (all JDK starting from 5 should be supported, but let the maintainers know otherwise)
+
+## Known bugs
+  - MacOSX 10.15.3: wish8.6 currently fails to load because of a link error (non Tk interpreters work)
 
 ## TODO
   - Test on various Linux and BSD distributions
