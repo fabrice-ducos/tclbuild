@@ -1,4 +1,4 @@
-# TacTCL 0.2.1
+# TacTCL 0.2.2
 (pronounce "tactical")
 
 A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
@@ -81,7 +81,7 @@ Once everything is set up, launch `make help` to see the list of available build
 
 ## Systems for which TacTCL has been successfully tested (a JDK 5+ is required for TclJava/Jaclin):
   - Linux Mint 4.10.0-38 (should probably work on most Linux systems too)
-  - MacOSX 10.15.3 (expect for wish8.6, see the Known bugs section)
+  - MacOSX 10.15.3 (except for wish8.6, see the Known bugs section)
   - JDK 9 and 12 (all JDK starting from 5 should be supported, but let the maintainers know otherwise)
 
 ## Known bugs
