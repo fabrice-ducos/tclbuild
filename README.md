@@ -1,6 +1,6 @@
-# tclbuild 0.1.13
+# tclbuild 0.1.14
 
-A build project for building Tcl/Tk and many popular Tcl/Tk packages from sources
+A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
 
 IT IS NOT A REPLACEMENT FOR ActiveState Tcl.
 If you need a production-ready, stable version of Tcl, it's probably better to rely on commercially supported packages such as ActiveState's.
@@ -22,8 +22,8 @@ Windows native is not supported for the moment, but a workaround is to use Cygwi
 ### For the impatient
 
 Just type `make`
-All what you need (binaries, libraries, header files) will be created in the `local` directory.
-Especially, you can find the binaries under `local/bin`.
+The sources from stable versions will be downloaded and compiled, and all what you need (binaries, libraries, header files) will be created in the `local` directory.
+Especially, you will find the binaries under `local/bin`.
 
 You can copy the directories wherever you need (e.g. under `/usr/local`).
 `tclbuild` doesn't currently perform an automatic installation in system directories to avoid overwriting a working installation.
@@ -46,8 +46,8 @@ $ ./local/bin/jaclsh
 (currently recognized by tclsh and jtclsh but not by jaclsh):
 
 `cp tclshrc $HOME/.tclshrc # don't forget the dot in the target`
-
-This setup script is based on tclreadline (that is currently not integrated in tclbuild and that you may need to install). It will provide you with syntax highlighting and history facilities.
+Edit the first line (lappend autopath) of `$HOME/.tclshrc` to the proper path of the Tcl package root on your system
+(this must be currently done manually; this should be improved later)
 
 ### If you need more control
 
@@ -70,6 +70,7 @@ Once everything is set up, launch `make help` to see the list of available build
   - tcl:      tcl 8.6.9 - the core langage
   - tk:       tk 8.6.9 - the popular Tk toolkit
   - ck:       ck master - a Tk clone for the console, based on curses (currently no version tag available)
+  - tclreadline: tclreadline 2.3.8 - a command line interpreter facility for tcl (syntax highlighthing and history-aware interpreter)
   - expect:   expect 5.45.4 - the famous Expect automation tool based on Tcl
   - tcllib:   tcllib 1.19 - standard tcl library
   - bwidget:  bwidget 1.9.13 - a cross-platform widget toolkit for Blender (currently GPL2)

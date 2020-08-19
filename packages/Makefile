@@ -18,6 +18,7 @@ help:
 	@echo "tcl:      tcl $(TCL_VERSION)"
 	@echo "tk:       tk $(TK_VERSION)"
 	@echo "ck:       ck $(CK_VERSION)"
+	@echo "tclreadline: tclreadline $(TCLREADLINE_VERSION)"
 	@echo "expect:   expect $(EXPECT_VERSION)"
 	@echo "tcllib:   tcllib $(TCLLIB_VERSION)"
 	@echo "bwidget:  bwidget $(BWIDGET_VERSION)"
@@ -46,9 +47,15 @@ ck: ck-$(CK_VERSION).zip
 ck-$(CK_VERSION).zip:
 	$(DOWNLOAD_TOOL) https://github.com/credil/ck/archive/$(CK_VERSION).zip -O ck-$(CK_VERSION).zip
 
-#https://sourceforge.net/projects/expect/files/Expect%204%20Windows/2008-06-10/expect-src.zip
-#https://sourceforge.net/projects/expect/files/Expect/5.45.4/expect5.45.4.tar.gz
-#https://sourceforge.net/projects/expect/files/Expect/5.45.4/expect5.45.4.tar.gz.SHA256
+# https://github.com/flightaware/tclreadline/archive/v2.3.8.zip
+tclreadline: tclreadline-$(TCLREADLINE_VERSION).zip
+
+tclreadline-$(TCLREADLINE_VERSION).zip:
+	$(DOWNLOAD_TOOL) https://github.com/flightaware/tclreadline/archive/v$(TCLREADLINE_VERSION).zip -O tclreadline-$(TCLREADLINE_VERSION).zip
+
+# https://sourceforge.net/projects/expect/files/Expect%204%20Windows/2008-06-10/expect-src.zip
+# https://sourceforge.net/projects/expect/files/Expect/5.45.4/expect5.45.4.tar.gz
+# https://sourceforge.net/projects/expect/files/Expect/5.45.4/expect5.45.4.tar.gz.SHA256
 expect: expect$(EXPECT_VERSION).tar.gz
 
 expect$(EXPECT_VERSION).tar.gz:

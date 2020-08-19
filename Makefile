@@ -13,6 +13,7 @@ PACKAGES_DIR=packages
 TCL_TARBALL=$(PACKAGES_DIR)/tcl$(TCL_VERSION)-src.tar.gz
 TK_TARBALL=$(PACKAGES_DIR)/tk$(TK_VERSION)-src.tar.gz
 CK_ZIPFILE=$(PACKAGES_DIR)/ck-$(CK_VERSION).zip
+TCLREADLINE_ZIPFILE=$(PACKAGES_DIR)/tclreadline-$(TCLREADLINE_VERSION).zip
 EXPECT_TARBALL=$(PACKAGES_DIR)/expect$(EXPECT_VERSION).tar.gz
 CRITCL_TARBALL=$(PACKAGES_DIR)/critcl-$(CRITCL_VERSION).tar.gz
 TCLX_ZIPFILE=$(PACKAGES_DIR)/tclx-$(TCLX_VERSION).zip
@@ -26,6 +27,7 @@ tcl_lang_version=$(shell echo $(TCL_VERSION) | sed 's/\([0-9]*\.[0-9]*\)\.[0-9]*
 tclsh=$(PREFIX)/bin/tclsh${tcl_lang_version}
 wish=$(PREFIX)/bin/wish${tcl_lang_version}
 cwsh=$(PREFIX)/bin/cwsh
+tclreadline-folder=$(PREFIX)/lib/tclreadline$(TCLREADLINE_VERSION)
 thread_lib=$(PREFIX)/lib/thread$(THREADS_VERSION)
 expect_cmd=$(PREFIX)/bin/expect
 critcl_cmd=$(PREFIX)/bin/critcl
@@ -43,6 +45,7 @@ endif
 TCL_SRCDIR=$(BUILD_DIR)/tcl$(TCL_VERSION)
 TK_SRCDIR=$(BUILD_DIR)/tk$(TK_VERSION)
 CK_SRCDIR=$(BUILD_DIR)/ck-$(CK_VERSION)
+TCLREADLINE_SRCDIR=$(BUILD_DIR)/tclreadline-$(TCLREADLINE_VERSION)
 EXPECT_SRCDIR=$(BUILD_DIR)/expect$(EXPECT_VERSION)
 CRITCL_SRCDIR=$(BUILD_DIR)/critcl-$(CRITCL_VERSION)
 TCLX_SRCDIR=$(BUILD_DIR)/tclx-$(TCLX_VERSION)
@@ -55,7 +58,7 @@ THREADS_SRCDIR=$(TCL_SRCDIR)/pkgs/thread$(THREADS_VERSION)
 threads_pkgIndex=$(THREADS_SRCDIR)/pkgIndex.tcl
 
 .PHONY: all download help clean erase
-.PHONY: tcl tk ck threads expect critcl tclx tcllib bwidget tclblend jacl
+.PHONY: tcl tk ck tclreadline threads expect critcl tclx tcllib bwidget tclblend jacl
 
 all: $(TARGETS)
 
@@ -69,6 +72,7 @@ help:
 	@echo "make tcl: build tcl"
 	@echo "make tk: build tk"
 	@echo "make ck: build ck"
+	@echo "make tclreadline: build tclreadline"
 	@echo "make threads: build tcl threads (a subpackage of tcl)"
 	@echo "make expect: build expect"
 	@echo "make critcl: build critcl"
@@ -100,6 +104,12 @@ $(wish): $(tclsh)
 	$(MAKE) $(TK_SRCDIR) && cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) $(X11_FLAGS) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
 
 ck: $(cwsh)
+
+tclreadline: $(tclreadline-folder)
+
+$(tclreadline-folder):
+	$(MAKE) $(TCLREADLINE_SRCDIR) && cd $(TCLREADLINE_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-tk=$(TK_SRCDIR)/$(TCL_PLATFORM) $(X11_FLAGS) --enable-tclshrl --enable-wishrl $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
+
 
 $(cwsh): $(tclsh)
 	$(MAKE) $(CK_SRCDIR) && cd $(CK_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) $(X11_FLAGS) && $(MAKE) && $(MAKE) install 
@@ -161,6 +171,9 @@ $(TK_SRCDIR): $(TK_TARBALL)
 $(CK_SRCDIR): $(CK_ZIPFILE)
 	$(MAKE) $(BUILD_DIR) && $(UNZIP) $< -d $(BUILD_DIR)
 
+$(TCLREADLINE_SRCDIR): $(TCLREADLINE_ZIPFILE)
+	$(MAKE) $(BUILD_DIR) && $(UNZIP) $< -d $(BUILD_DIR)
+
 $(EXPECT_SRCDIR): $(EXPECT_TARBALL)
 	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
@@ -201,6 +214,9 @@ $(TK_TARBALL):
 
 $(CK_ZIPFILE):
 	cd $(PACKAGES_DIR) && $(MAKE) ck
+
+$(TCLREADLINE_ZIPFILE):
+	cd $(PACKAGES_DIR) && $(MAKE) tclreadline
 
 $(EXPECT_TARBALL):
 	cd $(PACKAGES_DIR) && $(MAKE) expect
