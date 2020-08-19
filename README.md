@@ -1,15 +1,16 @@
-# tclbuild 0.1.14
+# TacTCL 0.2.0
+(pronounce "tactical")
 
 A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
 
 IT IS NOT A REPLACEMENT FOR ActiveState Tcl.
 If you need a production-ready, stable version of Tcl, it's probably better to rely on commercially supported packages such as ActiveState's.
 
-tclbuild's goal is to automatically download stable sources of several popular packages and compile them on your system with your available compiler, instead of relying on precompiled binaries.
+TacTCL's goal is to automatically download stable sources of several popular packages and compile them on your system with your available compiler, instead of relying on precompiled binaries.
 
-It provides native and JVM builds for Tcl. For the JVM builds, it uses Jaclin, a TclJava fork from tclbuild's author, that supports recent versions of the JDK (JDK 10 and newer, with support for JDK 4- dropped).
+It provides native and JVM builds for Tcl. For the JVM builds, it uses Jaclin, a TclJava fork from TacTCL's author, that supports recent versions of the JDK (JDK 10 and newer, with support for JDK 4- dropped).
 
-*The JVM builds with modern JDK and last versions of Tcl (8.6 with TclOO support) are a unique feature of tclbuild (currently not available in other Tcl distributions)*.
+*The JVM builds with modern JDK and last versions of Tcl (8.6 with TclOO support) are a unique feature of TacTCL (currently not available in other Tcl distributions)*.
 
 *Properly used, they can provide a safe environment with a server-side Java security manager, and Safe Tcl running on the JVM for the controlled execution of untrusted scripts (with smooth communication between Java and Tcl layers)*
 
@@ -26,7 +27,7 @@ The sources from stable versions will be downloaded and compiled, and all what y
 Especially, you will find the binaries under `local/bin`.
 
 You can copy the directories wherever you need (e.g. under `/usr/local`).
-`tclbuild` doesn't currently perform an automatic installation in system directories to avoid overwriting a working installation.
+`TacTCL` doesn't currently perform an automatic installation in system directories to avoid overwriting a working installation.
 
 You can test jtclsh and jaclsh (the JVM Tcl interpreters from Tclblend and Jacl) with these commands:
 
@@ -64,7 +65,7 @@ Once everything is set up, launch `make help` to see the list of available build
   - A modern JDK (JDK 5+)
   - A system with `GNU make` installed (other versions of `make` may work, but none has been tested yet)
 
-## What is installed by default by this version of tclbuild
+## What is installed by default by this version of TacTCL
 (these versions are known to be stable, but you can change them by editing build.cfg)
 
   - tcl:      tcl 8.6.9 - the core langage
