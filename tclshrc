@@ -1,0 +1,10 @@
+lappend auto_path [file join $env(HOME) Library Tcl]
+lappend auto_path .
+
+if {$::tcl_interactive} {
+    package require TclReadLine 
+    # set ::TclReadLine::PROMPT {tclsh[info patchlevel] \[[pwd]\]% }  ;# no colour alternative
+    set ::TclReadLine::PROMPT {\033\[36mtclsh-[info patchlevel]\033\[0m \[\033\[34m[file tail [pwd]\033\[0m]\]\033\[31m % \033\[0m}
+    #tailcall ::TclReadLine::interact
+    ::TclReadLine::interact
+}
