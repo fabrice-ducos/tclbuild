@@ -26,6 +26,7 @@ JACLIN_TARBALL=$(PACKAGES_DIR)/jaclin-$(JACLIN_VERSION).tar.gz
 tcl_lang_version=$(shell echo $(TCL_VERSION) | sed 's/\([0-9]*\.[0-9]*\)\.[0-9]*/\1/')
 tclsh=$(PREFIX)/bin/tclsh${tcl_lang_version}
 wish=$(PREFIX)/bin/wish${tcl_lang_version}
+libtk=tk${tcl_lang_version}
 cwsh=$(PREFIX)/bin/cwsh
 tclreadline-folder=$(PREFIX)/lib/tclreadline$(TCLREADLINE_VERSION)
 thread_lib=$(PREFIX)/lib/thread$(THREADS_VERSION)
@@ -56,6 +57,9 @@ JTCL_SRCDIR=$(BUILD_DIR)/jtcl-$(JTCL_VERSION)
 
 THREADS_SRCDIR=$(TCL_SRCDIR)/pkgs/thread$(THREADS_VERSION)
 threads_pkgIndex=$(THREADS_SRCDIR)/pkgIndex.tcl
+
+WITH_TCL=--with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM)
+WITH_TK=--with-tk=$(TK_SRCDIR)/$(TCL_PLATFORM)
 
 .PHONY: all download help clean erase
 .PHONY: tcl tk ck tclreadline threads expect critcl tclx tcllib bwidget tclblend jacl
@@ -101,7 +105,7 @@ $(tclsh):
 tk: $(wish)
 
 $(wish): $(tclsh)
-	$(MAKE) $(TK_SRCDIR) && cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) $(X11_FLAGS) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
+	$(MAKE) $(TK_SRCDIR) && cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) $(WITH_TCL) $(X11_FLAGS) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
 
 ck: $(cwsh)
 
@@ -109,21 +113,21 @@ tclreadline: $(tclreadline-folder)
 
 # explicit CFLAGS is necessary with tclreadline because tclreadline's configure doesn't recognize --with-x-includes
 $(tclreadline-folder):
-	$(MAKE) $(TCLREADLINE_SRCDIR) && cd $(TCLREADLINE_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-tk=$(TK_SRCDIR)/$(TCL_PLATFORM) $(READLINE_FLAGS) $(X11_FLAGS) --enable-tclshrl --enable-wishrl $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) CFLAGS=-I$(X11_PREFIX)/include && $(MAKE) && $(MAKE) install
+	$(MAKE) $(TCLREADLINE_SRCDIR) && cd $(TCLREADLINE_SRCDIR) && ./configure --prefix=$(PREFIX) $(WITH_TCL) $(WITH_TK) $(READLINE_FLAGS) $(X11_FLAGS) --enable-tclshrl --enable-wishrl $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) CFLAGS=-I$(X11_PREFIX)/include && $(MAKE) && $(MAKE) install
 
 
 $(cwsh): $(tclsh)
-	$(MAKE) $(CK_SRCDIR) && cd $(CK_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) $(X11_FLAGS) && $(MAKE) && $(MAKE) install 
+	$(MAKE) $(CK_SRCDIR) && cd $(CK_SRCDIR) && ./configure --prefix=$(PREFIX) $(WITH_TCL) $(X11_FLAGS) && $(MAKE) && $(MAKE) install 
 
 threads: $(threads_pkgIndex)
 
 $(threads_pkgIndex):
-	$(MAKE) $(THREADS_SRCDIR) && cd $(THREADS_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
+	$(MAKE) $(THREADS_SRCDIR) && cd $(THREADS_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(WITH_TCL) && $(MAKE) && $(MAKE) install
 
 expect: $(expect_cmd)
 
 $(expect_cmd): $(tclsh)
-	$(MAKE) $(EXPECT_SRCDIR) && cd $(EXPECT_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
+	$(MAKE) $(EXPECT_SRCDIR) && cd $(EXPECT_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(WITH_TCL) && $(MAKE) && $(MAKE) install
 
 critcl: $(critcl_cmd)
 
@@ -133,7 +137,7 @@ $(critcl_cmd): $(tclsh)
 tclx: $(tclx_lib)
 
 $(tclx_lib): $(tclsh)
-	$(MAKE) $(TCLX_SRCDIR) && cd $(TCLX_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
+	$(MAKE) $(TCLX_SRCDIR) && cd $(TCLX_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(WITH_TCL) && $(MAKE) && $(MAKE) install
 
 tcllib: $(tcllib_lib)
 
@@ -148,12 +152,12 @@ $(bwidget_lib):
 tclblend: $(jtclsh)
 
 $(jtclsh): $(threads_pkgIndex)
-	$(MAKE) $(JACLIN_SRCDIR) && cd $(JACLIN_SRCDIR) && ./configure --enable-tclblend --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-thread=$(THREADS_SRCDIR) --with-jdk=$(JAVA_HOME) && $(MAKE) && $(MAKE) install
+	$(MAKE) $(JACLIN_SRCDIR) && cd $(JACLIN_SRCDIR) && ./configure --enable-tclblend --prefix=$(PREFIX) $(WITH_TCL) --with-thread=$(THREADS_SRCDIR) --with-jdk=$(JAVA_HOME) && $(MAKE) && $(MAKE) install
 
 jacl: $(jaclsh)
 
 $(jaclsh):
-	$(MAKE) $(JACLIN_SRCDIR) && cd $(JACLIN_SRCDIR) && ./configure --enable-jacl --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-thread=$(THREADS_SRCDIR) --with-jdk=$(JAVA_HOME) && $(MAKE) && $(MAKE) install
+	$(MAKE) $(JACLIN_SRCDIR) && cd $(JACLIN_SRCDIR) && ./configure --enable-jacl --prefix=$(PREFIX) $(WITH_TCL) --with-thread=$(THREADS_SRCDIR) --with-jdk=$(JAVA_HOME) && $(MAKE) && $(MAKE) install
 
 jaclin: tclblend jacl
 
