@@ -1,4 +1,4 @@
-# tclbuild 0.1.8
+# tclbuild 0.1.9
 
 A build project for building Tcl/Tk and many popular Tcl/Tk packages from sources
 
@@ -40,6 +40,19 @@ Once everything is set up, launch `make help` to see the list of available build
 ## Requirements
 A modern JDK (JDK 5+)
 A system with `GNU make` installed (other versions of `make` may work, but none has been tested yet)
+
+## What is installed by default by this version of tclbuild
+(these versions are known to be stable, but you can change them by editing build.cfg)
+
+tcl:      tcl 8.6.9 - the core langage
+tk:       tk 8.6.9 - the popular Tk toolkit
+ck:       ck master - a Tk clone for the console, based on curses (currently no version tag available)
+expect:   expect 5.45.4 - the famous Expect automation tool based on Tcl
+tcllib:   tcllib 1.19 - standard tcl library
+bwidget:  bwidget 1.9.13 - a cross-platform widget toolkit for Blender (currently GPL2)
+critcl:   critcl 3.1.17 - package for on-the-fly compilation of tcl scripts
+tclx:     tclx 8.4.2 - popular extensions for Tcl
+jaclin:   jaclin 0.1.2 - fork of TclJava (Tcl on the JVM), with Tclblend updated for Tcl 8.6 (jtclsh 8.6 and jaclsh 8.0)
 
 ## TODO
 Test on various Linux and BSD distributions
