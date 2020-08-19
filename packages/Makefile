@@ -2,7 +2,7 @@ TAR=tar cvf
 include ../build.cfg
 
 .PHONY: all download help clean erase
-.PHONY: tcl tk expect critcl tclx tcllib bwidget tclblend jacl
+.PHONY: tcl tk ck expect critcl tclx tcllib bwidget tclblend jacl jtcl jaclin
 
 all: download
 
@@ -17,6 +17,7 @@ help:
 	@echo
 	@echo "tcl:      tcl $(TCL_VERSION)"
 	@echo "tk:       tk $(TK_VERSION)"
+	@echo "ck:       ck $(CK_VERSION)"
 	@echo "expect:   expect $(EXPECT_VERSION)"
 	@echo "tcllib:   tcllib $(TCLLIB_VERSION)"
 	@echo "bwidget:  bwidget $(BWIDGET_VERSION)"
@@ -39,6 +40,11 @@ tk: tk$(TK_VERSION)-src.tar.gz
 
 tk$(TK_VERSION)-src.tar.gz:
 	$(DOWNLOAD_TOOL) https://prdownloads.sourceforge.net/tcl/tk$(TK_VERSION)-src.tar.gz
+
+ck: ck-$(CK_VERSION).zip
+
+ck-$(CK_VERSION).zip:
+	$(DOWNLOAD_TOOL) https://github.com/credil/ck/archive/$(CK_VERSION).zip -O ck-$(CK_VERSION).zip
 
 #https://sourceforge.net/projects/expect/files/Expect%204%20Windows/2008-06-10/expect-src.zip
 #https://sourceforge.net/projects/expect/files/Expect/5.45.4/expect5.45.4.tar.gz

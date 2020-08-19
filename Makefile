@@ -12,9 +12,10 @@ TCL_PLATFORM=unix
 PACKAGES_DIR=packages
 TCL_TARBALL=$(PACKAGES_DIR)/tcl$(TCL_VERSION)-src.tar.gz
 TK_TARBALL=$(PACKAGES_DIR)/tk$(TK_VERSION)-src.tar.gz
+CK_ZIPFILE=$(PACKAGES_DIR)/ck-$(CK_VERSION).zip
 EXPECT_TARBALL=$(PACKAGES_DIR)/expect$(EXPECT_VERSION).tar.gz
 CRITCL_TARBALL=$(PACKAGES_DIR)/critcl-$(CRITCL_VERSION).tar.gz
-TCLX_TARBALL=$(PACKAGES_DIR)/tclx-$(TCLX_VERSION).zip
+TCLX_ZIPFILE=$(PACKAGES_DIR)/tclx-$(TCLX_VERSION).zip
 TCLLIB_TARBALL=$(PACKAGES_DIR)/tcllib-$(TCLLIB_VERSION).tar.gz
 BWIDGET_TARBALL=$(PACKAGES_DIR)/bwidget-$(BWIDGET_VERSION).tar.gz
 JTCL_TARBALL=$(PACKAGES_DIR)/jtcl-$(JTCL_VERSION).tar.gz
@@ -24,6 +25,7 @@ JACLIN_TARBALL=$(PACKAGES_DIR)/jaclin-$(JACLIN_VERSION).tar.gz
 tcl_lang_version=$(shell echo $(TCL_VERSION) | sed 's/\([0-9]*\.[0-9]*\)\.[0-9]*/\1/')
 tclsh=$(PREFIX)/bin/tclsh${tcl_lang_version}
 wish=$(PREFIX)/bin/wish${tcl_lang_version}
+cwsh=$(PREFIX)/bin/cwsh
 thread_lib=$(PREFIX)/lib/thread$(THREADS_VERSION)
 expect_cmd=$(PREFIX)/bin/expect
 critcl_cmd=$(PREFIX)/bin/critcl
@@ -40,6 +42,7 @@ endif
 
 TCL_SRCDIR=$(BUILD_DIR)/tcl$(TCL_VERSION)
 TK_SRCDIR=$(BUILD_DIR)/tk$(TK_VERSION)
+CK_SRCDIR=$(BUILD_DIR)/ck-$(CK_VERSION)
 EXPECT_SRCDIR=$(BUILD_DIR)/expect$(EXPECT_VERSION)
 CRITCL_SRCDIR=$(BUILD_DIR)/critcl-$(CRITCL_VERSION)
 TCLX_SRCDIR=$(BUILD_DIR)/tclx-$(TCLX_VERSION)
@@ -52,7 +55,7 @@ THREADS_SRCDIR=$(TCL_SRCDIR)/pkgs/thread$(THREADS_VERSION)
 threads_pkgIndex=$(THREADS_SRCDIR)/pkgIndex.tcl
 
 .PHONY: all download help clean erase
-.PHONY: tcl tk threads expect critcl tclx tcllib bwidget tclblend jacl
+.PHONY: tcl tk ck threads expect critcl tclx tcllib bwidget tclblend jacl
 
 all: $(TARGETS)
 
@@ -65,6 +68,7 @@ help:
 	@echo "make [all]: launch the build and installation process"
 	@echo "make tcl: build tcl"
 	@echo "make tk: build tk"
+	@echo "make ck: build ck"
 	@echo "make threads: build tcl threads (a subpackage of tcl)"
 	@echo "make expect: build expect"
 	@echo "make critcl: build critcl"
@@ -92,8 +96,13 @@ $(tclsh): $(TCL_SRCDIR)
 
 tk: $(wish)
 
-$(wish): $(tclsh) $(TK_SRCDIR)
+$(wish): tcl $(TK_SRCDIR)
 	cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
+
+ck: $(cwsh)
+
+$(cwsh): tcl $(CK_SRCDIR)
+	cd $(CK_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib && $(MAKE) && $(MAKE) install 
 
 threads: $(threads_lib)
 
@@ -104,22 +113,22 @@ $(threads_pkgIndex): $(TCL_SRCDIR) $(THREADS_SRCDIR)
 
 expect: $(expect_cmd)
 
-$(expect_cmd): $(tclsh) $(EXPECT_SRCDIR)
+$(expect_cmd): tcl $(EXPECT_SRCDIR)
 	cd $(EXPECT_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
 
 critcl: $(critcl_cmd)
 
-$(critcl_cmd): $(tclsh) $(CRITCL_SRCDIR)
+$(critcl_cmd): tcl $(CRITCL_SRCDIR)
 	cd $(CRITCL_SRCDIR) && $(tclsh) ./build.tcl install
 
 tclx: $(tclx_lib)
 
-$(tclx_lib): $(tclsh) $(TCLX_SRCDIR)
+$(tclx_lib): tcl $(TCLX_SRCDIR)
 	cd $(TCLX_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
 
 tcllib: $(tcllib_lib)
 
-$(tcllib_lib): $(tclsh) $(TCLLIB_SRCDIR)
+$(tcllib_lib): tcl $(TCLLIB_SRCDIR)
 	cd $(TCLLIB_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tclsh=$(tclsh) && $(MAKE) && $(MAKE) install
 
 bwidget: $(bwidget_lib)
@@ -152,13 +161,16 @@ $(THREADS_SRCDIR): $(TCL_SRCDIR)
 $(TK_SRCDIR): $(TK_TARBALL) $(BUILD_DIR)
 	$(UNTAR) $< -C $(BUILD_DIR)
 
+$(CK_SRCDIR): $(CK_ZIPFILE) $(BUILD_DIR)
+	$(UNZIP) $< -d $(BUILD_DIR)
+
 $(EXPECT_SRCDIR): $(EXPECT_TARBALL) $(BUILD_DIR)
 	$(UNTAR) $< -C $(BUILD_DIR)
 
 $(CRITCL_SRCDIR): $(CRITCL_TARBALL) $(BUILD_DIR)
 	$(UNTAR) $< -C $(BUILD_DIR)
 
-$(TCLX_SRCDIR): $(TCLX_TARBALL) $(BUILD_DIR)
+$(TCLX_SRCDIR): $(TCLX_ZIPFILE) $(BUILD_DIR)
 	$(UNZIP) $< -d $(BUILD_DIR)
 
 $(TCLLIB_SRCDIR): $(TCLLIB_TARBALL) $(BUILD_DIR)
@@ -188,13 +200,16 @@ $(TCL_TARBALL):
 $(TK_TARBALL):
 	cd $(PACKAGES_DIR) && $(MAKE) tk
 
+$(CK_ZIPFILE):
+	cd $(PACKAGES_DIR) && $(MAKE) ck
+
 $(EXPECT_TARBALL):
 	cd $(PACKAGES_DIR) && $(MAKE) expect
 
 $(CRITCL_TARBALL):
 	cd $(PACKAGES_DIR) && $(MAKE) critcl
 
-$(TCLX_TARBALL):
+$(TCLX_ZIPFILE):
 	cd $(PACKAGES_DIR) && $(MAKE) tclx
 
 $(TCLLIB_TARBALL):
