@@ -1,0 +1,65 @@
+Context:
+
+I am developing a small [Tcl/Tk distribution][1] in the context of another project.
+
+I want to build Tcl 8.6 support on modern JVM, and to my knowledge, at the time of writing no Tcl/Tk distribution provides modern TclJava interpreters on modern JVM, the TclJava project being on hold since 2010. While a modern TclJava support is the main motivation for this project, the Java dependency is perfectly optional and can be disabled in the configuration.
+
+The project is currently based on a simple `Makefile` that downloads automatically some dependencies and builds them locally, based on a configuration file (build.cfg) with sensible defaults, but that can be modified by the user. (I do know more modern build tools, e.g. `cmake`, but `make` is easier to  integrate with Tcl/Tk Makefiles, and just does the job).
+
+Problem:
+
+Most of the packages are properly built on Linux and OSX (Windows support will come later), but on OSX, I have a problem with `wish` (the Tcl interpreter window shell with Tk support).
+
+On a MacOSX system:
+```$ otool -L local/bin/wish8.6 
+local/bin/wish8.6:
+	/Users/username/tactcl/local/lib:/opt/X11/lib/libtk8.6.dylib (compatibility version 8.6.0, current version 8.6.9)
+	/Users/username/tactcl/local/lib/libtcl8.6.dylib (compatibility version 8.6.0, current version 8.6.9)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1281.0.0)
+	/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 1673.126.0)
+	/opt/X11/lib/libX11.6.dylib (compatibility version 10.0.0, current version 10.0.0)
+	/opt/X11/lib/libXss.1.dylib (compatibility version 2.0.0, current version 2.0.0)
+	/opt/X11/lib/libXext.6.dylib (compatibility version 11.0.0, current version 11.0.0)
+	/usr/lib/libz.1.dylib (compatibility version 1.0.0, current version 1.2.11)
+```
+
+One can notice the wrong path to libtk8.6.dylib on the first line (with the : sign in between).
+I would expect:
+`/Users/ducos/Developer/github/tactcl/local/lib/libtk8.6.dylib`
+
+On a Linux system, the link path is correct:
+`/home/username/tactcl/local/lib/libtk8.6.so`
+
+The Makefile is generic and the same rule is applied for both systems:
+
+```
+# Here is the configuration (kept separate from the Makefile for convenience)
+TCL_PLATFORM=unix
+X11_PREFIX=/opt/X11
+X11_FLAGS=--with-x --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib
+PREFIX=$(PWD)/local
+
+tcl_lang_version=8.6
+TCL_SRCDIR=build/tcl8.6.9
+TK_SRCDIR=build/tk8.6.9
+
+THREADS_FLAGS=--enable-threads
+
+# these flags are intentionally left empty
+MORE_TCL_FLAGS=
+MORE_TK_FLAGS=
+
+# Here is the Makefile rule responsible for the compilation of the wish interpreter
+# (it actually calls a configure script in the Tk project, that I assume to be correct)
+# On Linux, it is linked properly to libtk
+# On MacOSX, the link is invalid
+
+tclsh=$(PREFIX)/bin/tclsh${tcl_lang_version}
+wish=$(PREFIX)/bin/wish${tcl_lang_version}
+
+$(wish): $(tclsh)
+        $(MAKE) $(TK_SRCDIR) && cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) $(WITH_TCL) $(X11_FLAGS) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
+```
+
+  [1]: https://github.com/fabrice-ducos/tactcl
+
