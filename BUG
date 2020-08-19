@@ -25,7 +25,7 @@ local/bin/wish8.6:
 
 One can notice the wrong path to libtk8.6.dylib on the first line (with the : sign in between).
 I would expect:
-`/Users/ducos/Developer/github/tactcl/local/lib/libtk8.6.dylib`
+`/Users/username/tactcl/local/lib/libtk8.6.dylib`
 
 On a Linux system, the link path is correct:
 `/home/username/tactcl/local/lib/libtk8.6.so`
