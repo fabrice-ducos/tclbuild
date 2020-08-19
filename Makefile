@@ -91,108 +91,107 @@ help:
 
 tcl: $(tclsh)
 
-$(tclsh): $(TCL_SRCDIR)
-	cd $(TCL_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib $(THREADS_FLAGS) $(MORE_TCL_FLAGS) && $(MAKE) && $(MAKE) install
+$(tclsh):
+	$(MAKE) $(TCL_SRCDIR) && cd $(TCL_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib $(THREADS_FLAGS) $(MORE_TCL_FLAGS) && $(MAKE) && $(MAKE) install
 
 tk: $(wish)
 
-$(wish): tcl $(TK_SRCDIR)
-	cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
+$(wish): $(tclsh)
+	$(MAKE) $(TK_SRCDIR) && cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
 
 ck: $(cwsh)
 
-$(cwsh): tcl $(CK_SRCDIR)
-	cd $(CK_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib && $(MAKE) && $(MAKE) install 
+$(cwsh): $(tclsh)
+	$(MAKE) $(CK_SRCDIR) && cd $(CK_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib && $(MAKE) && $(MAKE) install 
 
-threads: $(threads_lib)
+threads: $(threads_pkgIndex)
 
-$(threads_lib): $(threads_pkgIndex)
-
-$(threads_pkgIndex): $(TCL_SRCDIR) $(THREADS_SRCDIR)
-	cd $(THREADS_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
+$(threads_pkgIndex):
+	$(MAKE) $(THREADS_SRCDIR) && cd $(THREADS_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
 
 expect: $(expect_cmd)
 
-$(expect_cmd): tcl $(EXPECT_SRCDIR)
-	cd $(EXPECT_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
+$(expect_cmd): $(tclsh)
+	$(MAKE) $(EXPECT_SRCDIR) && cd $(EXPECT_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
 
 critcl: $(critcl_cmd)
 
-$(critcl_cmd): tcl $(CRITCL_SRCDIR)
-	cd $(CRITCL_SRCDIR) && $(tclsh) ./build.tcl install
+$(critcl_cmd): $(tclsh)
+	$(MAKE) $(CRITCL_SRCDIR) && cd $(CRITCL_SRCDIR) && $(tclsh) ./build.tcl install
 
 tclx: $(tclx_lib)
 
-$(tclx_lib): tcl $(TCLX_SRCDIR)
-	cd $(TCLX_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
+$(tclx_lib): $(tclsh)
+	$(MAKE) $(TCLX_SRCDIR) && cd $(TCLX_SRCDIR) && ./configure --prefix=$(PREFIX) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) && $(MAKE) && $(MAKE) install
 
 tcllib: $(tcllib_lib)
 
-$(tcllib_lib): tcl $(TCLLIB_SRCDIR)
-	cd $(TCLLIB_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tclsh=$(tclsh) && $(MAKE) && $(MAKE) install
+$(tcllib_lib): $(tclsh)
+	$(MAKE) $(TCLLIB_SRCDIR) && cd $(TCLLIB_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tclsh=$(tclsh) && $(MAKE) && $(MAKE) install
 
 bwidget: $(bwidget_lib)
 
-$(bwidget_lib): $(BWIDGET_SRCDIR)
-	mv $(BWIDGET_SRCDIR) $(PREFIX)/lib/BWidget
+$(bwidget_lib):
+	$(MAKE) $(BWIDGET_SRCDIR) && mv $(BWIDGET_SRCDIR) $(PREFIX)/lib/BWidget
 
 tclblend: $(jtclsh)
 
-$(jtclsh): $(threads_pkgIndex) $(JACLIN_SRCDIR)
-	cd $(JACLIN_SRCDIR) && ./configure --enable-tclblend --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-thread=$(THREADS_SRCDIR) --with-jdk=$(JAVA_HOME) && $(MAKE) && $(MAKE) install
-
-$(threads_pkgIndex): threads
+$(jtclsh): $(threads_pkgIndex)
+	$(MAKE) $(JACLIN_SRCDIR) && cd $(JACLIN_SRCDIR) && ./configure --enable-tclblend --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-thread=$(THREADS_SRCDIR) --with-jdk=$(JAVA_HOME) && $(MAKE) && $(MAKE) install
 
 jacl: $(jaclsh)
 
-$(jaclsh): $(JACLIN_SRCDIR)
-	cd $(JACLIN_SRCDIR) && ./configure --enable-jacl --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-thread=$(THREADS_SRCDIR) --with-jdk=$(JAVA_HOME) && $(MAKE) && $(MAKE) install
+$(jaclsh):
+	$(MAKE) $(JACLIN_SRCDIR) && cd $(JACLIN_SRCDIR) && ./configure --enable-jacl --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --with-thread=$(THREADS_SRCDIR) --with-jdk=$(JAVA_HOME) && $(MAKE) && $(MAKE) install
 
 jaclin: tclblend jacl
 
-jtcl: $(JTCL_SRCDIR)
-	cd $(JTCL_SRCDIR) && echo "jtcl not yet supported..." && false
-
-$(TCL_SRCDIR): $(TCL_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+jtcl:
+	$(MAKE) $(JTCL_SRCDIR) && cd $(JTCL_SRCDIR) && echo "jtcl not yet supported..." && false
 
 $(THREADS_SRCDIR): $(TCL_SRCDIR)
 
-$(TK_SRCDIR): $(TK_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+############## EXTRACT DOWNLOADS INTO BUILD_DIR ###############
+$(TCL_SRCDIR): $(TCL_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
-$(CK_SRCDIR): $(CK_ZIPFILE) $(BUILD_DIR)
-	$(UNZIP) $< -d $(BUILD_DIR)
+$(TK_SRCDIR): $(TK_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
-$(EXPECT_SRCDIR): $(EXPECT_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+$(CK_SRCDIR): $(CK_ZIPFILE)
+	$(MAKE) $(BUILD_DIR) && $(UNZIP) $< -d $(BUILD_DIR)
 
-$(CRITCL_SRCDIR): $(CRITCL_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+$(EXPECT_SRCDIR): $(EXPECT_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
-$(TCLX_SRCDIR): $(TCLX_ZIPFILE) $(BUILD_DIR)
-	$(UNZIP) $< -d $(BUILD_DIR)
+$(CRITCL_SRCDIR): $(CRITCL_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
-$(TCLLIB_SRCDIR): $(TCLLIB_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+$(TCLX_SRCDIR): $(TCLX_ZIPFILE)
+	$(MAKE) $(BUILD_DIR) && $(UNZIP) $< -d $(BUILD_DIR)
 
-$(BWIDGET_SRCDIR): $(BWIDGET_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+$(TCLLIB_SRCDIR): $(TCLLIB_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
-$(TCLBLEND_SRCDIR): $(TCLBLEND_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+$(BWIDGET_SRCDIR): $(BWIDGET_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
-$(JACL_SRCDIR): $(JACL_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+$(TCLBLEND_SRCDIR): $(TCLBLEND_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
-$(JACLIN_SRCDIR): $(JACLIN_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+$(JACL_SRCDIR): $(JACL_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
-$(JTCL_SRCDIR): $(JTCL_TARBALL) $(BUILD_DIR)
-	$(UNTAR) $< -C $(BUILD_DIR)
+$(JACLIN_SRCDIR): $(JACLIN_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
+
+$(JTCL_SRCDIR): $(JTCL_TARBALL)
+	$(MAKE) $(BUILD_DIR) && $(UNTAR) $< -C $(BUILD_DIR)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+
+################## DOWNLOAD DEPENDENCIES ###################
 
 $(TCL_TARBALL):
 	cd $(PACKAGES_DIR) && $(MAKE) tcl
