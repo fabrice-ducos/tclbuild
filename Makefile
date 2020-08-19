@@ -92,17 +92,17 @@ help:
 tcl: $(tclsh)
 
 $(tclsh):
-	$(MAKE) $(TCL_SRCDIR) && cd $(TCL_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib $(THREADS_FLAGS) $(MORE_TCL_FLAGS) && $(MAKE) && $(MAKE) install
+	$(MAKE) $(TCL_SRCDIR) && cd $(TCL_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) $(X11_FLAGS) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) && $(MAKE) && $(MAKE) install
 
 tk: $(wish)
 
 $(wish): $(tclsh)
-	$(MAKE) $(TK_SRCDIR) && cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
+	$(MAKE) $(TK_SRCDIR) && cd $(TK_SRCDIR)/$(TCL_PLATFORM) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) $(X11_FLAGS) $(THREADS_FLAGS) $(MORE_TCL_FLAGS) $(MORE_TK_FLAGS) && $(MAKE) && $(MAKE) install
 
 ck: $(cwsh)
 
 $(cwsh): $(tclsh)
-	$(MAKE) $(CK_SRCDIR) && cd $(CK_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) --x-includes=$(X11_PREFIX)/include --x-libraries=$(X11_PREFIX)/lib && $(MAKE) && $(MAKE) install 
+	$(MAKE) $(CK_SRCDIR) && cd $(CK_SRCDIR) && ./configure --prefix=$(PREFIX) --with-tcl=$(TCL_SRCDIR)/$(TCL_PLATFORM) $(X11_FLAGS) && $(MAKE) && $(MAKE) install 
 
 threads: $(threads_pkgIndex)
 

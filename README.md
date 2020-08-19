@@ -1,4 +1,4 @@
-# tclbuild 0.1.12
+# tclbuild 0.1.13
 
 A build project for building Tcl/Tk and many popular Tcl/Tk packages from sources
 
@@ -9,7 +9,9 @@ tclbuild's goal is to automatically download stable sources of several popular p
 
 It provides native and JVM builds for Tcl. For the JVM builds, it uses Jaclin, a TclJava fork from tclbuild's author, that supports recent versions of the JDK (JDK 10 and newer, with support for JDK 4- dropped).
 
-*The JVM builds with modern JDK are a unique feature of tclbuild (not available in other Tcl distributions)*.
+*The JVM builds with modern JDK and last versions of Tcl (8.6 with TclOO support) are a unique feature of tclbuild (currently not available in other Tcl distributions)*.
+
+*Properly used, they can provide a safe environment with a server-side Java security manager, and Safe Tcl running on the JVM for the controlled execution of untrusted scripts (with smooth communication between Java and Tcl layers)*
 
 This is a work in progress and still experimental.
 It should work on any Unix-like system (Linux, BSD, OSX) with a Java Development Kit installed.
@@ -40,7 +42,8 @@ $ ./local/bin/jaclsh
 8.0
 ```
 
-To get a more user's friendly tcl shell (currently recognized by tclsh and jtclsh but not by jaclsh):
+### To get a more user's friendly tcl shell
+(currently recognized by tclsh and jtclsh but not by jaclsh):
 
 `cp tclshrc $HOME/.tclshrc # don't forget the dot in the target`
 
