@@ -1,4 +1,4 @@
-# TacTCL 0.2.4
+# TacTCL 0.2.5
 (pronounce "tactical")
 
 A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
@@ -14,7 +14,7 @@ It provides native and JVM builds for Tcl. For the JVM builds, it uses Jaclin, a
 
 *Properly used, they can provide a safe environment with a server-side Java security manager, and Safe Tcl running on the JVM for the controlled execution of untrusted scripts (with smooth communication between Java and Tcl layers)*
 
-This is a work in progress and still experimental.
+This is a work in progress and still experimental (contributors are welcome).
 It should work on any Unix-like system (Linux, BSD, OSX) with a Java Development Kit installed.
 Windows native is not supported for the moment, but a workaround is to use Cygwin or a Linux image on Windows (on Windows 10+).
 
@@ -47,6 +47,7 @@ $ ./local/bin/jaclsh
 (currently recognized by tclsh and jtclsh but not by jaclsh):
 
 `cp tclshrc $HOME/.tclshrc # don't forget the dot in the target`
+
 Edit the first line (lappend autopath) of `$HOME/.tclshrc` to the proper path of the Tcl package root on your system
 (this must be currently done manually; this should be improved later)
 
