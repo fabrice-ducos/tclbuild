@@ -1,4 +1,4 @@
-# TacTCL 0.2.6
+# TacTCL 0.2.7
 (pronounce "tactical")
 
 A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
@@ -54,7 +54,7 @@ Edit the first line (lappend autopath) of `$HOME/.tclshrc` to the proper path of
 ### If you need more control
 
 Edit `build.cfg`:
-  - set the desired versions for the tools
+  - set the desired versions for the tools (so you can compile a prefered version of Tcl or of some packages for your system)
   - comment or uncomment the TARGETS lines depending on the needed tools
   - edit the installation path: PREFIX
 
@@ -67,18 +67,19 @@ Once everything is set up, launch `make help` to see the list of available build
   - A system with `GNU make` installed (other versions of `make` may work, but none has been tested yet)
 
 ## What is installed by default by this version of TacTCL
-(these versions are known to be stable, but you can change them by editing build.cfg)
 
-  - tcl:      tcl 8.6.9 - the core langage
-  - tk:       tk 8.6.9 - the popular Tk toolkit
-  - ck:       ck master - a Tk clone for the console, based on curses (currently no version tag available)
-  - tclreadline: tclreadline 2.3.8 - a command line interpreter facility for tcl (syntax highlighthing and history-aware interpreter)
-  - expect:   expect 5.45.4 - the famous Expect automation tool based on Tcl
-  - tcllib:   tcllib 1.19 - standard tcl library
-  - bwidget:  bwidget 1.9.13 - a cross-platform widget toolkit for Blender (currently GPL2)
-  - critcl:   critcl 3.1.17 - package for on-the-fly compilation of tcl scripts
-  - tclx:     tclx 8.4.2 - popular extensions for Tcl
-  - jaclin:   jaclin 0.1.2 - TclJava fork (Tcl on the JVM), with Tclblend updated for Tcl 8.6 (jtclsh 8.6 and jaclsh 8.0)
+  - tcl: the core langage
+  - tk:the popular Tk toolkit
+  - ck: a Tk clone for the console, based on curses (currently no version tag available)
+  - tclreadline: a command line interpreter facility for tcl (syntax highlighthing and history-aware interpreter)
+  - expect: the famous automation tool based on Tcl
+  - tcllib: standard tcl library
+  - bwidget: a cross-platform widget toolkit for Blender (currently GPL2)
+  - critcl: package for on-the-fly compilation of tcl scripts
+  - tclx: popular extensions for Tcl
+  - jaclin: a TclJava fork (Tcl on the JVM), with Tclblend updated for Tcl 8.6 (jtclsh 8.6 and jaclsh 8.0)
+
+All dependencies are optional and can be disabled by editing `build.cfg`
 
 ## Systems for which TacTCL has been successfully tested (a JDK 5+ is required for TclJava/Jaclin):
   - Linux Mint 4.10.0-38 (should probably work on most Linux systems too)
