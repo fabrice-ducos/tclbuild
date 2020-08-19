@@ -1,4 +1,4 @@
-# tclbuild 0.1.10
+# tclbuild 0.1.11
 
 A build project for building Tcl/Tk and many popular Tcl/Tk packages from sources
 
@@ -38,8 +38,8 @@ Once everything is set up, launch `make help` to see the list of available build
 `make` will attempt to build all the targets specified in `build.cfg`
 
 ## Requirements
-A modern JDK (JDK 5+)
-A system with `GNU make` installed (other versions of `make` may work, but none has been tested yet)
+  - A modern JDK (JDK 5+)
+  - A system with `GNU make` installed (other versions of `make` may work, but none has been tested yet)
 
 ## What is installed by default by this version of tclbuild
 (these versions are known to be stable, but you can change them by editing build.cfg)
@@ -55,5 +55,5 @@ A system with `GNU make` installed (other versions of `make` may work, but none 
   - jaclin:   jaclin 0.1.2 - fork of TclJava (Tcl on the JVM), with Tclblend updated for Tcl 8.6 (jtclsh 8.6 and jaclsh 8.0)
 
 ## TODO
-Test on various Linux and BSD distributions
-Port on Windows native (.bat, nmake)
+  - Test on various Linux and BSD distributions
+  - Port on Windows native (.bat, nmake)
