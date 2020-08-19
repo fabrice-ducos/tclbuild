@@ -69,7 +69,7 @@ Once everything is set up, launch `make help` to see the list of available build
 ## What is installed by default by this version of TacTCL
 
   - tcl: the core langage
-  - tk:the popular Tk toolkit
+  - tk: the popular Tk toolkit
   - ck: a Tk clone for the console, based on curses (currently no version tag available)
   - tclreadline: a command line interpreter facility for tcl (syntax highlighthing and history-aware interpreter)
   - expect: the famous automation tool based on Tcl
