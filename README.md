@@ -67,6 +67,7 @@ Once everything is set up, launch `make help` to see the list of available build
 ## Requirements
   - A modern JDK (JDK 5+)
   - A system with `GNU make` installed (other versions of `make` may work, but none has been tested yet)
+  - the following tools (usually available or easily installable on most Unix-like systems): wget, unzip and tar
 
 ## What is installed by default by this version of TacTCL
 
