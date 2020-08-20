@@ -1,4 +1,4 @@
-# TacTCL 0.2.8
+# TacTCL 0.2.9
 (pronounce "tactical")
 
 A small, free Tcl/Tk distribution with some popular Tcl/Tk packages built from sources (it can be increased later on demand).
@@ -90,6 +90,7 @@ All dependencies are optional and can be disabled by editing `build.cfg`
 
 ## Known bugs
   - MacOSX 10.15.3: wish8.6 currently fails to load because of a link error (non Tk interpreters work). See [wish8.6 bug](https://github.com/fabrice-ducos/tactcl/issues/1) for details.
+    *FIXED in 0.2.9*
 
 ## TODO
   - Test on various Linux and BSD distributions
